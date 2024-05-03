@@ -101,10 +101,10 @@ def app():
         st.write(':fire:구환희 전지훈 권휘우')
         st.write("")
         st.write('[ Chroma DB 컨텐츠 ]')
-        st.write(':one: homepage_v13')
+        st.write(':one: homepage_v14')
         st.write(':two: schoolregulation_v13')
-        st.write(':three: knowhow_v13')
-        st.write(':four: namuwiki_v13')
+        st.write(':three: knowhow_v14')
+        st.write(':four: namuwiki_v14')
 
         st.write("")
         st.write('[ 주요 Specification ]')
