@@ -4,7 +4,7 @@ import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 
-# langchain 라이브러리를 Import한다.
+# langchain 라이브러리 Import
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
@@ -13,8 +13,8 @@ from langchain_openai import ChatOpenAI
 from langchain.retrievers.multi_query import MultiQueryRetriever
 from langchain.chains import RetrievalQA
 
+# 환경변수, 이미지, 데이터조작, 임시파일, 운영체계관련, 입출력, 시간 관련 라이브러리 Import
 from dotenv import load_dotenv
-
 import streamlit as st
 from PIL import Image
 import pandas as pd
@@ -23,17 +23,18 @@ import os
 import io
 import time
 
-# Stream을 위한 Import
+# 한글자씩 답변하기 위한, Stream을 위한 라이브러리ㅡImport
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.callbacks.base import BaseCallbackHandler
 
+# 소켓프로그래밍, 날짜/사간, 엑셀파일을 위한 라이브러리 Import
 import socket
 import datetime
 from openpyxl import Workbook, load_workbook
 from openpyxl.utils import get_column_letter
 
 
-# 엑셀 파일에 데이터를 기록하는 함수입니다.
+# 엑셀 파일에 데이터를 기록하는 함수
 def log_question_to_excel(question, ip_address, timestamp):
     filename = 'question_log.xlsx'
     try:
@@ -58,7 +59,7 @@ def log_question_to_excel(question, ip_address, timestamp):
         print(f"Error logging question to Excel: {e}")
 
 
-# 로컬 IP 주소를 가져오는 함수입니다.
+# 로컬 IP 주소를 가져오는 함수
 def get_local_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
@@ -72,9 +73,8 @@ def get_local_ip():
     return IP
 
 
-# 환경변수를 로드한다. (ChatGPT API Key를 .env라는 파일에 넣어야 함. OPENAI_API_KEY=시리얼넘버)
+# 환경변수 로드
 load_dotenv()
-
 password_key = os.getenv('KEY')
 admin_key = os.getenv('ADMIN')
 
@@ -90,8 +90,10 @@ def download_excel():
                 mime="application/vnd.ms-excel"
             )
 
+# 챗봇 메인 함수
 def app():
 
+    # 화면 6:15로 분할
     col1, col2 = st.columns([6,15])
 
     with col1:
@@ -112,6 +114,7 @@ def app():
         st.write("")
         st.write('[ 주요 Specification ]')
         st.write(':zap: LLM : OpenAI GPT-4')
+        st.write(':zap: Termperature : 0')
         st.write(':zap: Framework : Langchain')
         st.write(':zap: Vector DB : Chroma')
         st.write(':zap: Embedding : OpenAI')
@@ -134,13 +137,14 @@ def app():
     with col2:
         st.write("")
 
+        # 패스워드 받고, 화면 보여주기위한 텍스트 입력
         password = st.text_input(":heavy_check_mark: 민사고 :gun: 패스워드 넣어주세요. :red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle:", type="password")
 
         if password:
             if password == password_key:
-                # 비밀번호가 맞으면 다운로드 버튼 표시
-                st.success("패스워드 확인 완료!")
 
+                # 비밀번호가 맞으면 화면 보여주기
+                st.success("패스워드 확인 완료!")
                 st.write("")
                 user_input = st.text_input(":eight_pointed_black_star:민사고에 대해 질문하고 엔터를 눌러주세요!")
 
@@ -150,7 +154,7 @@ def app():
                 st.write(':four: namuwiki : 치킨데이? 바비큐 방법? 한과영교류전? 아침기? 면학실?')
 
                 if user_input:
-
+                    # 질문하면 아래 내용 보여주기
                     st.write("")
                     st.write(':robot_face: 답변 드립니다!')
 
@@ -169,6 +173,10 @@ def app():
                             self.text += token
                             self.container.markdown(self.text)
 
+                    # 질문을 받아, 답변하는 로직, 이 프로그램의 주인공.
+                    # 모델 : OpenAI의 gpt-4-turbo-2024-04-10
+                    # 답변 정도 : Temperature = 0
+                    # DB는 Chromadb, embedding은 OpenAIEmbeddings
                     question = user_input
                     chat_box = st.empty()
                     stream_handler = StreamHandler(chat_box)                
