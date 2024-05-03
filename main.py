@@ -3,7 +3,6 @@ __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
-
 # langchain 라이브러리 Import
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -33,7 +32,6 @@ import datetime
 from openpyxl import Workbook, load_workbook
 from openpyxl.utils import get_column_letter
 
-
 # 엑셀 파일에 데이터를 기록하는 함수
 def log_question_to_excel(question, ip_address, timestamp):
     filename = 'question_log.xlsx'
@@ -58,7 +56,6 @@ def log_question_to_excel(question, ip_address, timestamp):
     except Exception as e:
         print(f"Error logging question to Excel: {e}")
 
-
 # 로컬 IP 주소를 가져오는 함수
 def get_local_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -72,12 +69,10 @@ def get_local_ip():
         s.close()
     return IP
 
-
 # 환경변수 로드
 load_dotenv()
 password_key = os.getenv('KEY')
 admin_key = os.getenv('ADMIN')
-
 
 # 엑셀 파일 다운로드를 위한 함수
 def download_excel():
