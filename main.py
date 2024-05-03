@@ -151,7 +151,7 @@ def app():
                 if user_input:
                     # 질문하면 아래 내용 보여주기
                     st.write("")
-                    st.write(':robot_face: 답변 드립니다!')
+                    st.write(':alien::alien::alien::alien::alien: 답변 드립니다 :alien::alien::alien::alien::alien:')
 
                     # 질문을 로깅합니다.
                     log_question_to_excel(user_input, get_local_ip(), datetime.datetime.now())
