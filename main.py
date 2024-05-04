@@ -36,7 +36,7 @@ from openpyxl.utils import get_column_letter
 def log_question_to_excel(question, ip_address, timestamp):
     filename = 'question_log.xlsx'
     try:
-        # 엑셀 파일이 이미 존재하면 로드하고, 그렇지 않으면 새 파일을 생성합니다.
+        # 엑셀 파일이 이미 존재하면 로드하고, 그렇지 않으면 새 파일 생성
         try:
             workbook = load_workbook(filename)
             sheet = workbook.active
@@ -47,11 +47,11 @@ def log_question_to_excel(question, ip_address, timestamp):
             sheet['B1'] = 'IP Address'
             sheet['C1'] = 'Timestamp'
 
-        # 새로운 데이터를 추가합니다.
+        # 새로운 데이터 추가
         new_row = (question, ip_address, timestamp)
         sheet.append(new_row)
 
-        # 파일을 저장합니다.
+        # 파일 저장
         workbook.save(filename)
     except Exception as e:
         print(f"Error logging question to Excel: {e}")
@@ -60,7 +60,7 @@ def log_question_to_excel(question, ip_address, timestamp):
 def get_local_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
-        # 이 IP는 실제로 연결되지 않지만, 루프백 주소(127.0.0.1)를 반환하지 않도록 합니다.
+        # 이 IP는 실제로 연결되지 않지만, 루프백 주소(127.0.0.1)를 반환하지 않도록 함
         s.connect(('10.255.255.255', 1))
         IP = s.getsockname()[0]
     except Exception:
@@ -113,7 +113,7 @@ def app():
         st.write(':zap: Framework : Langchain')
         st.write(':zap: Vector DB : Chroma')
         st.write(':zap: Embedding : OpenAI')
-        st.write(':zap: Chunk : 600, 30')
+        st.write(':zap: Chunk, O/L : 600, 50')
         st.write(':zap: WWW : Github, Streamlit')
 
         st.write("")
