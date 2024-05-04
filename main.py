@@ -145,8 +145,8 @@ def app():
 
                 st.write(':one: homepage : 수학선생님? 학교시설? 동아리? 5월 귀가는?')
                 st.write(':two: schoolregulation : 수강신청? 외출외박 신청? 혼정? 벌점이 3점이상?')
-                st.write(':three: knowhow : 비트? 융프? 줄임말 사례는? 초아? 라피네?')
-                st.write(':four: namuwiki : 치킨데이? 바비큐 방법? 한과영교류전? 아침기? 면학실?')
+                st.write(':three: knowhow : 비트? 줄임말 사례는? 초아?')
+                st.write(':four: namuwiki : 치킨데이? 바비큐 방법? 한과영교류전? 면학실?')
 
                 if user_input:
                     # 질문하면 아래 내용 보여주기
