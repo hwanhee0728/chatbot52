@@ -104,6 +104,7 @@ def app():
         st.write(':star::star::star::star::star::star::star:')
         st.write('별다방 쿠폰 드립니다!')
         st.markdown('<a href="https://survey10.streamlit.app/" target="_blank">만족도조사 Click!</a>', unsafe_allow_html=True)
+        st.write('기간 : 5월13월~18토')
         st.write('우측화면 챗봇 사용후,')
         st.write('만족도조사 하신분께!')
         st.write(':unicorn_face:추첨 : 2만원 * 3명')
