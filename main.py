@@ -1,4 +1,4 @@
-# Streamlit에 올릴때 필요한 코드 (sql 오류 fix위해)
+# Streamlit에 올릴때 필요한 코드 (sql 오류 fix위해), 로컬에서는 주석처리 필요
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
