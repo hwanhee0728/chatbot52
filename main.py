@@ -34,7 +34,7 @@ from openpyxl.utils import get_column_letter
 
 # 엑셀 파일에 데이터를 기록하는 함수
 def log_question_to_excel(question, ip_address, timestamp):
-    filename = 'question_log.xlsx'
+    filename = 'question.xlsx'
     try:
         # 엑셀 파일이 이미 존재하면 로드하고, 그렇지 않으면 새 파일 생성
         try:
@@ -76,7 +76,7 @@ admin_key = os.getenv('ADMIN')
 
 # 엑셀 파일 다운로드를 위한 함수
 def download_excel():
-    filename = 'question_log.xlsx'
+    filename = 'question.xlsx'
     with open(filename, "rb") as file:
         btn = st.download_button(
                 label="질문 로그 다운로드",
