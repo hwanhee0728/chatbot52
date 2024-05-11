@@ -117,7 +117,7 @@ def app():
         st.write("")
 
         # 엑셀 다운로드
-        admin_password = st.text_input(":computer: 관리자", type="password")
+        admin_password = st.text_input(":lock: 관리자", type="password")
         if admin_password:
             if admin_password == admin_key:
                 st.success("비밀번호 확인 완료")
