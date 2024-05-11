@@ -140,10 +140,10 @@ def app():
                 st.write("")
                 user_input = st.text_input(":eight_pointed_black_star:민사고에 대해 질문하고 엔터를 눌러주세요!")
 
-                st.write(':one: homepage : 수학선생님? 학교시설? 동아리? 5월 귀가는?')
-                st.write(':two: schoolregulation : 수강신청? 외출외박 신청? 혼정? 벌점이 3점이상?')
-                st.write(':three: knowhow : 비트? 줄임말 사례는? 초아?')
-                st.write(':four: namuwiki : 치킨데이? 바비큐 방법? 한과영교류전? 면학실?')
+                st.write(':one: homepage : 국어 선생님을 알려줄래? 학교 6월 일정을 알려줄래?')
+                st.write(':two: schoolregulation : 외출외박 신청은 어떻게 해? 벌점이 3점이상?')
+                st.write(':three: knowhow : 비트가 뭐야? 학교에 어떤 동아리가 있어?')
+                st.write(':four: namuwiki : 치킨데이가 뭐야? 바베큐 파티를 하려는데 방법은?')
 
                 if user_input:
                     # 질문하면 아래 내용 보여주기
