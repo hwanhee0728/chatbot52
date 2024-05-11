@@ -130,7 +130,7 @@ def app():
         st.write("")
 
         # 패스워드 받고, 화면 보여주기위한 텍스트 입력
-        password = st.text_input(":heavy_check_mark: 민사고 :gun: 패스워드 넣어주세요. :red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle:", type="password")
+        password = st.text_input(":heavy_check_mark: 민사고 :gun: 패스워드 넣어주세요. (7 글자)", type="password")
 
         if password:
             if password == password_key:
@@ -148,7 +148,7 @@ def app():
                 if user_input:
                     # 질문하면 아래 내용 보여주기
                     st.write("")
-                    st.write(':alien::alien::alien::alien::alien::alien::alien: 답변 드립니다 :alien::alien::alien::alien::alien::alien::alien:')
+                    st.write(':pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2: 답변 드립니다 :pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2:')
 
                     # 질문을 로깅합니다.
                     log_question_to_excel(user_input, get_local_ip(), datetime.datetime.now())
