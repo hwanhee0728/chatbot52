@@ -96,6 +96,7 @@ def app():
         image = Image.open('robot01.png')
         image = image.resize((170, 170))
         st.image(image)
+        st.caption(":copyright:권휘우")
 
         st.write("")
         st.write(':shamrock: KMLA Chatbot Team')
