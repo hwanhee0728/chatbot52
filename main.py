@@ -148,7 +148,7 @@ def app():
                 if user_input:
                     # 질문하면 아래 내용 보여주기
                     st.write("")
-                    st.write(':pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2: 답변 드립니다 :pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2:')
+                    st.write(':pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2: 답변 드립니다 :pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2:')
 
                     # 질문을 로깅합니다.
                     log_question_to_excel(user_input, get_local_ip(), datetime.datetime.now())
