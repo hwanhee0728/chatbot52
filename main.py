@@ -128,9 +128,9 @@ def app():
 
     with col2:
         st.write("")
-
+        st.write(':heavy_check_mark: 민사고 :gun: 패스워드 넣어주세요!')
         # 패스워드 받고, 화면 보여주기위한 텍스트 입력
-        password = st.text_input(":heavy_check_mark: 민사고 :gun: 패스워드 넣어주세요. (7 글자, k*****7)", type="password")
+        password = st.text_input("7 글자 예요, k * * * * * 7", type="password")
 
         if password:
             if password == password_key:
