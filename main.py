@@ -145,6 +145,7 @@ def app():
                 st.write(':two: schoolregulation : 외출외박 신청은 어떻게 해? 벌점이 3점이상?')
                 st.write(':three: knowhow : 비트가 뭐야? 학교에 어떤 동아리가 있어?')
                 st.write(':four: namuwiki : 치킨데이가 뭐야? 바베큐 파티를 하려는데 방법은?')
+                st.write(':magic: Magic 키워드! ~에 대해 상세히 알려줄래? 하면 더 잘 알려줘요!')
 
                 if user_input:
                     # 질문하면 아래 내용 보여주기
