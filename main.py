@@ -102,7 +102,7 @@ def app():
         st.write('(구환희,전지훈,권휘우)')
         st.write("")
         st.write("")
-        st.write(':star: 만족도 조사')  
+        st.write(':star: 만족도조사')  
         st.write('우측화면 챗봇 사용 후,')
         st.write('만족도조사 참여해주시면')
         st.write('정말 감사드리겠습니다!')
