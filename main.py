@@ -109,10 +109,10 @@ def app():
         st.markdown('<a href="https://survey10.streamlit.app/" target="_blank">만족도조사 Click!</a>', unsafe_allow_html=True)
         st.write("")
         st.write('[ Chroma DB 컨텐츠 ]')
-        st.write(':one: homepage_v20')
+        st.write(':one: homepage_v40')
         st.write(':two: schoolregulation_v15')
-        st.write(':three: knowhow_v15')
-        st.write(':four: namuwiki_v15')
+        st.write(':three: knowhow_v40')
+        st.write(':four: namuwiki_v16')
         st.write("")
 
         # 엑셀 다운로드
