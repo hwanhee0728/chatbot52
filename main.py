@@ -111,7 +111,7 @@ def app():
         st.write('[ Chroma DB 컨텐츠 ]')
         st.write(':one: homepage_v40')
         st.write(':two: schoolregulation_v15')
-        st.write(':three: knowhow_v40')
+        st.write(':three: knowhow(small)_v17')
         st.write(':four: namuwiki_v16')
         st.write("")
 
