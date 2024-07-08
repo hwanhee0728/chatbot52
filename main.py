@@ -15,9 +15,8 @@ from dotenv import load_dotenv
 import streamlit as st
 from PIL import Image
 import os
-import shutil
 
-# 한글자씩 답변하기 위한, Stream을 위한 라이브러리 Import
+# 한글자씩 답변하기 위한, Stream을 위한 라이브러리ㅡImport
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.callbacks.base import BaseCallbackHandler
 
@@ -27,8 +26,9 @@ password_key = os.getenv('KEY')
 
 # 챗봇 메인 함수
 def app():
+
     # 화면 6:15로 분할
-    col1, col2 = st.columns([6, 15])
+    col1, col2 = st.columns([6,15])
 
     with col1:
         image = Image.open('robot01.png')
@@ -56,6 +56,8 @@ def app():
         st.write(':small_blue_diamond: namuwiki_v16')
         st.write("")
 
+
+
     with col2:
         st.write("")
         # 패스워드 받고, 화면 보여주기위한 텍스트 입력
@@ -63,6 +65,7 @@ def app():
 
         if password:
             if password == password_key:
+
                 # 비밀번호가 맞으면 화면 보여주기
                 st.success("패스워드 확인 완료!")
                 st.write("")
@@ -80,44 +83,32 @@ def app():
                     st.write(':pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2: 답변 드립니다 :pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2:')
 
                     embeddings_model = OpenAIEmbeddings()
-                    db_directory = "chromadb_600"
+                    db = Chroma(persist_directory="chromadb_600", embedding_function=embeddings_model)
 
-                    # 데이터베이스 디렉토리 및 파일 삭제 (필요 시)
-                    if os.path.exists(db_directory):
-                        shutil.rmtree(db_directory)
+                    # Stream구현을(한글자씩 쓰여지는 기능) 위해 Handler 만들기
+                    class StreamHandler(BaseCallbackHandler):
+                        def __init__(self, container, initial_text=""):
+                            self.container = container
+                            self.text=initial_text
+                        def on_llm_new_token(self, token: str, **kwargs) -> None:
+                            self.text += token
+                            self.container.markdown(self.text)
 
-                    os.makedirs(db_directory, exist_ok=True)
-
-                    try:
-                        db = Chroma(persist_directory=db_directory, embedding_function=embeddings_model)
-
-                        # Stream구현을(한글자씩 쓰여지는 기능) 위해 Handler 만들기
-                        class StreamHandler(BaseCallbackHandler):
-                            def __init__(self, container, initial_text=""):
-                                self.container = container
-                                self.text = initial_text
-                            def on_llm_new_token(self, token: str, **kwargs) -> None:
-                                self.text += token
-                                self.container.markdown(self.text)
-
-                        # 모델 : OpenAI의 gpt-4-turbo-2024-04-10 에서 gpt-4o-2024-05-13 로 수정(24.05.16 10::25)
-                        question = user_input
-                        chat_box = st.empty()
-                        stream_handler = StreamHandler(chat_box)                
-                        llm = ChatOpenAI(model_name="gpt-4o", temperature=0, streaming=True, callbacks=[stream_handler])
-                        qa_chain = RetrievalQA.from_chain_type(llm, retriever=db.as_retriever())
-                        response = qa_chain.invoke({"query": question})
-                        response_text = response['result']
-                        
-                        # 답변 글자 수 계산
-                        char_count = len(response_text)
-                        chat_box.markdown(response_text + f"\n\n :robot::robot::robot: 답변 글자수(공백포함) : {char_count}")
-
-                    except Exception as e:
-                        st.error(f"데이터베이스 초기화 중 오류가 발생했습니다: {str(e)}")
+                    # 모델 : OpenAI의 gpt-4-turbo-2024-04-10 에서 gpt-4o-2024-05-13 로 수정(24.05.16 10::25)
+                    question = user_input
+                    chat_box = st.empty()
+                    stream_handler = StreamHandler(chat_box)                
+                    llm = ChatOpenAI(model_name="gpt-4o", temperature=0, streaming=True, callbacks=[stream_handler])
+                    qa_chain = RetrievalQA.from_chain_type(llm,retriever=db.as_retriever())         
+                    response = qa_chain.invoke({"query": question})
+                    response_text = response['result']
+                    
+                    # 답변 글자 수 계산
+                    char_count = len(response_text)
+                    chat_box.markdown(response_text + f"\n\n :robot::robot::robot: 답변 글자수(공백포함) : {char_count}")
 
             else:
-                st.error("패스워드가 잘못되었습니다. 다시 입력해주세요.")
+                st.error("에러")
 
 if __name__ == "__main__":
     app()
