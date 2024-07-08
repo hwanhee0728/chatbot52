@@ -89,7 +89,7 @@ def app():
                     os.makedirs(db_directory, exist_ok=True)
 
                     try:
-                        db = Chroma(persist_directory=db_directory, embedding_function=embeddings_model, client_settings={"default_tenant": "my_tenant"})
+                        db = Chroma(persist_directory=db_directory, embedding_function=embeddings_model)
 
                         # Stream구현을(한글자씩 쓰여지는 기능) 위해 Handler 만들기
                         class StreamHandler(BaseCallbackHandler):
