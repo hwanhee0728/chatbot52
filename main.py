@@ -23,7 +23,6 @@ from langchain.callbacks.base import BaseCallbackHandler
 # 환경변수 로드
 load_dotenv()
 password_key = os.getenv('KEY')
-admin_key = os.getenv('ADMIN')
 
 # 챗봇 메인 함수
 def app():
@@ -32,28 +31,38 @@ def app():
     col1, col2 = st.columns([6,15])
 
     with col1:
-        st.subheader(':robot_face: Chatbot')
+        st.subheader(':robot_face: Chatbot Team')
         image = Image.open('robot01.png')
         image = image.resize((170, 170))
         st.image(image)
+        st.write(':star::star::star::star::star::star::star:')
+        st.write('KMLA 28기 (2024-1학기)')
+        st.write('구환희, 전지훈, 권휘우')
+        st.write("")
+        st.write("")
+        st.write(':orange_book: 자체 LLM 구성')
+        st.write(':small_blue_diamond: python, vscode')
+        st.write(':small_blue_diamond: langchain F/W')
+        st.write(':small_blue_diamond: streamlit')
+        st.write(':small_blue_diamond: chroma vector DB')
+        st.write(':small_blue_diamond: ollama F/W')
+        st.write(':small_blue_diamond: open source LLM')
+        st.write("")
+        st.write("")
+        st.write(':closed_book: KMLA DB 컨텐츠')
+        st.write(':small_blue_diamond: homepage_v40')
+        st.write(':small_blue_diamond: regulation_v15')
+        st.write(':small_blue_diamond: knowhow_v40')
+        st.write(':small_blue_diamond: namuwiki_v16')
+        st.write("")
 
-        st.write("")
-        st.write(':fire: KMLA Chatbot Team')
-        st.write('(구환희,전지훈,권휘우)')
-        st.write("")
-        st.write("")
-        st.write('[ Chroma DB 컨텐츠 ]')
-        st.write(':one: homepage_v40')
-        st.write(':two: schoolregulation_v15')
-        st.write(':three: knowhow(small)_v17')
-        st.write(':four: namuwiki_v16')
 
 
     with col2:
         st.write("")
         st.write(':heavy_check_mark: 민사고 :gun: 패스워드 넣어주세요!')
         # 패스워드 받고, 화면 보여주기위한 텍스트 입력
-        password = st.text_input(":key: 안내 받은, 7 글자를 입력해 주세요 ( k * * * * * 7 )", type="password")
+        password = st.text_input(":key: 안내 받은, 7 글자를 입력해 주세요", type="password")
 
         if password:
             if password == password_key:
@@ -74,9 +83,6 @@ def app():
                     st.write("")
                     st.write(':pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2: 답변 드립니다 :pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2::pencil2:')
 
-                    # 질문을 로깅합니다.
-                    log_question_to_excel(user_input, get_local_ip(), datetime.datetime.now())
-
                     embeddings_model = OpenAIEmbeddings()
                     db = Chroma(persist_directory="chromadb_600", embedding_function=embeddings_model)
 
@@ -89,10 +95,7 @@ def app():
                             self.text += token
                             self.container.markdown(self.text)
 
-                    # 질문을 받아, 답변하는 로직, 이 프로그램의 주인공.
                     # 모델 : OpenAI의 gpt-4-turbo-2024-04-10 에서 gpt-4o-2024-05-13 로 수정(24.05.16 10::25)
-                    # 답변 정도 : Temperature = 0
-                    # DB는 Chromadb, embedding은 OpenAIEmbeddings
                     question = user_input
                     chat_box = st.empty()
                     stream_handler = StreamHandler(chat_box)                
