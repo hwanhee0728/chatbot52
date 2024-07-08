@@ -31,7 +31,7 @@ def app():
     col1, col2 = st.columns([6,15])
 
     with col1:
-        st.subheader(':robot_face: Chatbot Team')
+        st.subheader(':robot_face: KMLA Chatbot')
         image = Image.open('robot01.png')
         image = image.resize((170, 170))
         st.image(image)
@@ -60,9 +60,8 @@ def app():
 
     with col2:
         st.write("")
-        st.write(':heavy_check_mark: 민사고 :gun: 패스워드 넣어주세요!')
         # 패스워드 받고, 화면 보여주기위한 텍스트 입력
-        password = st.text_input(":key: 안내 받은, 7 글자를 입력해 주세요", type="password")
+        password = st.text_input(":key: 안내 받은 7 글자 패스워드를 넣어주세요!", type="password")
 
         if password:
             if password == password_key:
