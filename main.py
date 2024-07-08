@@ -105,7 +105,7 @@ def app():
                     
                     # 답변 글자 수 계산
                     char_count = len(response_text)
-                    chat_box.markdown(response_text + f"\n\n총 글자 수: {char_count}")
+                    chat_box.markdown(response_text + f"\n\n:robot: 답변 글자 수: {char_count}")
 
             else:
                 st.error("에러")
