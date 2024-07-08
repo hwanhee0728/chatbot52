@@ -98,7 +98,7 @@ def app():
                     question = user_input
                     chat_box = st.empty()
                     stream_handler = StreamHandler(chat_box)                
-                    llm = ChatOpenAI(model_name="gpt-4o-2024-05-13", temperature=0, streaming=True, callbacks=[stream_handler])
+                    llm = ChatOpenAI(model_name="gpt-4o", temperature=0, streaming=True, callbacks=[stream_handler])
                     qa_chain = RetrievalQA.from_chain_type(llm,retriever=db.as_retriever())         
                     response = qa_chain.invoke({"query": question})
                     response_text = response['result']
