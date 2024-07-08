@@ -4,8 +4,6 @@ import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 # langchain 라이브러리 Import
-from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
 from langchain_openai import ChatOpenAI
@@ -16,74 +14,16 @@ from langchain.chains import RetrievalQA
 from dotenv import load_dotenv
 import streamlit as st
 from PIL import Image
-import pandas as pd
-import tempfile
 import os
-import io
-import time
 
 # 한글자씩 답변하기 위한, Stream을 위한 라이브러리ㅡImport
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.callbacks.base import BaseCallbackHandler
 
-# 소켓프로그래밍, 날짜/사간, 엑셀파일을 위한 라이브러리 Import
-import socket
-import datetime
-from openpyxl import Workbook, load_workbook
-from openpyxl.utils import get_column_letter
-
-# 엑셀 파일에 데이터를 기록하는 함수
-def log_question_to_excel(question, ip_address, timestamp):
-    filename = 'question.xlsx'
-    try:
-        # 엑셀 파일이 이미 존재하면 로드하고, 그렇지 않으면 새 파일 생성
-        try:
-            workbook = load_workbook(filename)
-            sheet = workbook.active
-        except FileNotFoundError:
-            workbook = Workbook()
-            sheet = workbook.active
-            sheet['A1'] = 'Question'
-            sheet['B1'] = 'IP Address'
-            sheet['C1'] = 'Timestamp'
-
-        # 새로운 데이터 추가
-        new_row = (question, ip_address, timestamp)
-        sheet.append(new_row)
-
-        # 파일 저장
-        workbook.save(filename)
-    except Exception as e:
-        print(f"Error logging question to Excel: {e}")
-
-# 로컬 IP 주소를 가져오는 함수
-def get_local_ip():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    try:
-        # 이 IP는 실제로 연결되지 않지만, 루프백 주소(127.0.0.1)를 반환하지 않도록 함
-        s.connect(('10.255.255.255', 1))
-        IP = s.getsockname()[0]
-    except Exception:
-        IP = '127.0.0.1'
-    finally:
-        s.close()
-    return IP
-
 # 환경변수 로드
 load_dotenv()
 password_key = os.getenv('KEY')
 admin_key = os.getenv('ADMIN')
-
-# 엑셀 파일 다운로드를 위한 함수
-def download_excel():
-    filename = 'question.xlsx'
-    with open(filename, "rb") as file:
-        btn = st.download_button(
-                label="질문 로그 다운로드",
-                data=file,
-                file_name=filename,
-                mime="application/vnd.ms-excel"
-            )
 
 # 챗봇 메인 함수
 def app():
@@ -102,28 +42,12 @@ def app():
         st.write('(구환희,전지훈,권휘우)')
         st.write("")
         st.write("")
-        st.write(':star: 만족도조사')  
-        st.write('우측화면 챗봇 사용 후,')
-        st.write('만족도조사 참여해주시면')
-        st.write('정말 감사드리겠습니다!')
-        st.markdown('<a href="https://survey10.streamlit.app/" target="_blank">만족도조사 Click!</a>', unsafe_allow_html=True)
-        st.write("")
         st.write('[ Chroma DB 컨텐츠 ]')
         st.write(':one: homepage_v40')
         st.write(':two: schoolregulation_v15')
         st.write(':three: knowhow(small)_v17')
         st.write(':four: namuwiki_v16')
-        st.write("")
 
-        # 엑셀 다운로드
-        admin_password = st.text_input(":lock: 관리자", type="password")
-        if admin_password:
-            if admin_password == admin_key:
-                st.success("비밀번호 확인 완료")
-                # 엑셀 파일 다운로드 기능
-                download_excel()
-            else:
-                st.error("잘못된 비밀번호입니다.")
 
     with col2:
         st.write("")
@@ -139,9 +63,9 @@ def app():
                 st.write("")
                 user_input = st.text_input(":eight_pointed_black_star:민사고에 대해 질문하고 엔터를 눌러주세요!")
 
-                st.write(':one: homepage : 국어 선생님을 알려줄래? 학교 6월 일정을 알려줄래?')
+                st.write(':one: homepage : 국어 선생님을 알려줄래? 학교 8월 일정을 알려줄래?')
                 st.write(':two: schoolregulation : 외출외박 신청은 어떻게 해? 벌점이 3점이상?')
-                st.write(':three: knowhow : 비트가 뭐야? 학교에 어떤 동아리가 있어?')
+                st.write(':three: knowhow : 비전트립이 뭐야? 학교에 어떤 동아리가 있어?')
                 st.write(':four: namuwiki : 치킨데이가 뭐야? 바베큐 파티를 하려는데 방법은?')
                 st.write(':robot_face: Magic 키워드! ~에 대해 상세히 알려줄래? 하면 더 잘 알려줘요!')
 
@@ -174,7 +98,12 @@ def app():
                     stream_handler = StreamHandler(chat_box)                
                     llm = ChatOpenAI(model_name="gpt-4o-2024-05-13", temperature=0, streaming=True, callbacks=[stream_handler])
                     qa_chain = RetrievalQA.from_chain_type(llm,retriever=db.as_retriever())         
-                    qa_chain.invoke({"query": question})
+                    response = qa_chain.invoke({"query": question})
+                    response_text = response['result']
+                    
+                    # 답변 글자 수 계산
+                    char_count = len(response_text)
+                    chat_box.markdown(response_text + f"\n\n총 글자 수: {char_count}")
 
             else:
                 st.error("에러")
