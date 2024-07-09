@@ -17,11 +17,10 @@ from langchain.callbacks.base import BaseCallbackHandler
 load_dotenv()
 password_key = os.getenv('KEY')
 
-st.subheader('KMLA Chatbot')
-image = Image.open('robot01.png')
-image = image.resize((120, 120))
+image = Image.open('presentation.png')
+image = image.resize((528, 120))
 st.image(image)
-st.write(':star: KMLA 28기:star: 구환희, 전지훈, 권휘우')
+st.write(':star: KMLA Chatbot Team :star: 28기 구환희, 전지훈, 권휘우')
 
 password = st.text_input(":name_badge: 7글자 패스워드를 넣어주세요!", type="password")
 
