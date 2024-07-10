@@ -2,8 +2,10 @@ __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
-import streamlit as st
 import os
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+
+import streamlit as st
 
 from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
@@ -55,7 +57,7 @@ if password:
             question = user_input
             chat_box = st.empty()
             stream_handler = StreamHandler(chat_box)
-            llm = ChatOpenAI(model_name="gpt-4o", temperature=1, streaming=True, callbacks=[stream_handler], max_tokens=2000)
+            llm = ChatOpenAI(model_name="gpt-4o", temperature=0.2, streaming=True, callbacks=[stream_handler], max_tokens=2000)
             qa_chain = RetrievalQA.from_chain_type(llm, retriever=db.as_retriever())
 
             try:
