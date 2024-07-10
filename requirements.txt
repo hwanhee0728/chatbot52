@@ -9,3 +9,4 @@ pysqlite3-binary
 chromadb
 tiktoken
 openpyxl
+protobuf==3.20.3
