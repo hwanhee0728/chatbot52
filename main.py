@@ -2,17 +2,16 @@ __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
+import streamlit as st
+import os
+
 from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
 from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA
-
-from dotenv import load_dotenv
-import streamlit as st
-from PIL import Image
-import os
-
 from langchain.callbacks.base import BaseCallbackHandler
+from dotenv import load_dotenv
+from PIL import Image
 
 load_dotenv()
 password_key = os.getenv('KEY')
