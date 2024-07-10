@@ -38,7 +38,7 @@ if password:
 
             embeddings_model = OpenAIEmbeddings()
             try:
-                db = Chroma(persist_directory="chromadb_600", embedding_function=embeddings_model)
+                db = Chroma(persist_directory="chromadb", embedding_function=embeddings_model)
             except Exception as e:
                 st.error(f"Error initializing database: {e}")
                 raise
