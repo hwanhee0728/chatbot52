@@ -36,9 +36,9 @@ if password:
             st.write("")
             st.write(':pencil2::pencil2::pencil2: 답변 드립니다 :pencil2::pencil2::pencil2:')
 
-            embeddings_model = OpenAIEmbeddings()
+            embeddings_model = OpenAIEmbeddings(model="text-embedding-ada-002")
             try:
-                db = Chroma(persist_directory="chromadb", embedding_function=embeddings_model)
+                db = Chroma(persist_directory="chromadb_ada", embedding_function=embeddings_model)
             except Exception as e:
                 st.error(f"Error initializing database: {e}")
                 raise
