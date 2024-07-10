@@ -37,21 +37,30 @@ if password:
             st.write(':pencil2::pencil2::pencil2: 답변 드립니다 :pencil2::pencil2::pencil2:')
 
             embeddings_model = OpenAIEmbeddings()
-            db = Chroma(persist_directory="chromadb_600", embedding_function=embeddings_model)
+            try:
+                db = Chroma(persist_directory="chromadb_600", embedding_function=embeddings_model)
+            except Exception as e:
+                st.error(f"Error initializing database: {e}")
+                raise
 
             # Stream구현을(한글자씩 쓰여지는 기능) 위해 Handler 만들기
             class StreamHandler(BaseCallbackHandler):
                 def __init__(self, container, initial_text=""):
                     self.container = container
-                    self.text=initial_text
+                    self.text = initial_text
+
                 def on_llm_new_token(self, token: str, **kwargs) -> None:
                     self.text += token
                     self.container.markdown(self.text)
 
             question = user_input
             chat_box = st.empty()
-            stream_handler = StreamHandler(chat_box)                
+            stream_handler = StreamHandler(chat_box)
             llm = ChatOpenAI(model_name="gpt-4o", temperature=0, streaming=True, callbacks=[stream_handler])
-            qa_chain = RetrievalQA.from_chain_type(llm,retriever=db.as_retriever())         
-            qa_chain.invoke({"query": question})
-                
+            qa_chain = RetrievalQA.from_chain_type(llm, retriever=db.as_retriever())
+
+            try:
+                qa_chain.invoke({"query": question})
+            except Exception as e:
+                st.error(f"Error during QA chain execution: {e}")
+                raise
