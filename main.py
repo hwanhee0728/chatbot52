@@ -19,9 +19,12 @@ load_dotenv()
 password_key = os.getenv('KEY')
 
 image = Image.open('presentation.png')
-image = image.resize((528, 120))
+image = image.resize((600, 136))
 st.image(image)
-st.write(':star: KMLA 28기 :star: 구환희, 전지훈, 권휘우')
+
+image = Image.open('chatbot21.png')
+image = image.resize((600, 56))
+st.image(image)
 
 password = st.text_input(":name_badge: 7글자 패스워드를 넣어주세요!", type="password")
 
