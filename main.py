@@ -18,10 +18,6 @@ from PIL import Image
 load_dotenv()
 password_key = os.getenv('KEY')
 
-image = Image.open('presentation.png')
-image = image.resize((600, 136))
-st.image(image)
-
 image = Image.open('chatbot21.png')
 image = image.resize((600, 56))
 st.image(image)
