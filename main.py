@@ -18,7 +18,7 @@ from PIL import Image
 load_dotenv()
 password_key = os.getenv('KEY')
 
-st.markdown('<a href="https://kmlasurvey.streamlit.app/" target="_blank">챗봇 사용후 Feedback주실 분 여기 클릭!</a>', unsafe_allow_html=True)
+st.markdown('<a href="https://surveykmla.streamlit.app/" target="_blank">챗봇 사용후 Feedback주실 분 여기 클릭!</a>', unsafe_allow_html=True)
 image = Image.open('chatbot21.png')
 image = image.resize((600, 56))
 st.image(image)
