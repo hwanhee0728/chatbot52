@@ -35,7 +35,7 @@ if password:
         if user_input:
             # 질문하면 아래 내용 보여주기
             st.write("")
-            st.write(':pencil2::pencil2::pencil2: 답변 드립니다 :pencil2::pencil2::pencil2:')
+            st.write(':tangerine::tangerine::tangerine::tangerine::tangerine: 답변 드립니다 :tangerine::tangerine::tangerine::tangerine::tangerine:')
 
             embeddings_model = OpenAIEmbeddings(model="text-embedding-ada-002")
             try:
