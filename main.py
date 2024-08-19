@@ -57,7 +57,7 @@ if password:
             question = user_input
             chat_box = st.empty()
             stream_handler = StreamHandler(chat_box)
-            llm = ChatOpenAI(model_name="gpt-4o", temperature=0.1, streaming=True, callbacks=[stream_handler], max_tokens=2000)
+            llm = ChatOpenAI(model_name="gpt-4o", temperature=0, streaming=True, callbacks=[stream_handler], max_tokens=2000)
             qa_chain = RetrievalQA.from_chain_type(llm, retriever=db.as_retriever())
 
             try:
