@@ -30,7 +30,7 @@ if password:
 
         st.success("패스워드 확인 완료!")
         st.write("")
-        user_input = st.text_input(":crystal_ball: 민사고에 대해 질문하고 엔터를 눌러주세요!")
+        user_input = st.text_input(":apple: 민사고에 대해 질문하고 엔터를 눌러주세요!")
 
         if user_input:
             # 질문하면 아래 내용 보여주기
