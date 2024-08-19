@@ -23,7 +23,7 @@ image = Image.open('chatbot21.png')
 image = image.resize((600, 56))
 st.image(image)
 
-password = st.text_input(":desktop_computer: 7글자 패스워드를 넣어주세요!", type="password")
+password = st.text_input(":melon: 패스워드를 넣어주세요! (k로 시작해서 7로 끝나요) ", type="password")
 
 if password:
     if password == password_key:
