@@ -23,14 +23,14 @@ image = Image.open('chatbot21.png')
 image = image.resize((600, 56))
 st.image(image)
 
-password = st.text_input(":name_badge: 7글자 패스워드를 넣어주세요!", type="password")
+password = st.text_input(":desktop_computer: 7글자 패스워드를 넣어주세요!", type="password")
 
 if password:
     if password == password_key:
 
         st.success("패스워드 확인 완료!")
         st.write("")
-        user_input = st.text_input(":eight_pointed_black_star:민사고에 대해 질문하고 엔터를 눌러주세요!")
+        user_input = st.text_input(":crystal_ball: 민사고에 대해 질문하고 엔터를 눌러주세요!")
 
         if user_input:
             # 질문하면 아래 내용 보여주기
