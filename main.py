@@ -23,7 +23,7 @@ image = Image.open('chatbot21.png')
 image = image.resize((600, 56))
 st.image(image)
 
-password = st.text_input(":strawberry: 패스워드를 넣어주세요! (k로 시작해서 7로 끝나요) ", type="password")
+password = st.text_input(":strawberry: 패스워드를 넣어주세요! (k로 시작, 7로 끝나요) ", type="password")
 
 if password:
     if password == password_key:
@@ -35,7 +35,7 @@ if password:
         if user_input:
             # 질문하면 아래 내용 보여주기
             st.write("")
-            st.write(':tangerine::tangerine::tangerine::tangerine::tangerine: 답변 드립니다 :tangerine::tangerine::tangerine::tangerine::tangerine:')
+            st.write(':tangerine::tangerine::tangerine::tangerine: 답변 드립니다 :tangerine::tangerine::tangerine::tangerine:')
 
             embeddings_model = OpenAIEmbeddings(model="text-embedding-ada-002")
             try:
