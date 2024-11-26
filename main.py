@@ -37,7 +37,6 @@ if not st.session_state.authenticated:
             st.session_state.authenticated = True
             st.success("✅ 인증 성공! 질문을 입력하세요.")
 
-
             user_input = st.text_input(":eight_pointed_black_star:민사고에 대해 질문하고 엔터를 눌러주세요!")
         
             if user_input:
