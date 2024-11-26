@@ -15,16 +15,6 @@ from langchain.callbacks.base import BaseCallbackHandler
 from dotenv import load_dotenv
 from PIL import Image
 
-# .env 파일 로드
-#load_dotenv()
-password_key = os.getenv('KEY')
-
-# 로고 이미지 표시
-#image = Image.open('robot01.png')
-#image = image.resize((150, 150))
-#st.image(image)
-
-st.write(":robot_face:KMLA Chatbot :smile:무엇이든 물어보세요!")
 
 st.markdown(
     """
@@ -37,6 +27,17 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+# .env 파일 로드
+#load_dotenv()
+password_key = os.getenv('KEY')
+
+# 로고 이미지 표시
+#image = Image.open('robot01.png')
+#image = image.resize((150, 150))
+#st.image(image)
+
+st.write(":robot_face: KMLA Chatbot :smile: 무엇이든 물어보세요!")
 
 # 인증 상태 초기화
 if "authenticated" not in st.session_state:
