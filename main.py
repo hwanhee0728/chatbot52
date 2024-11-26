@@ -26,19 +26,19 @@ st.header("KMLA Chatbot")
 
 password = st.text_input(":name_badge: 7글자 패스워드를 넣어주세요!", type="password")
 
-if "authenticated" not in st.session_state:
-    st.session_state.authenticated = False
-
-if not st.session_state.authenticated:
-    password = st.text_input(":name_badge: 7글자 패스워드를 넣어주세요!", type="password")
-    if password:
-        if password == password_key:
-            st.session_state.authenticated = True
-            st.success("✅ 인증 성공! 질문을 입력하세요.")
-        else:
-            st.error("❌ 비밀번호가 올바르지 않습니다. 다시 시도해 주세요.")
-else:
-    user_input = st.text_input(":eight_pointed_black_star:민사고에 대해 질문하고 엔터를 눌러주세요!")
+    if "authenticated" not in st.session_state:
+        st.session_state.authenticated = False
+    
+    if not st.session_state.authenticated:
+        password = st.text_input(":name_badge: 7글자 패스워드를 넣어주세요!", type="password")
+        if password:
+            if password == password_key:
+                st.session_state.authenticated = True
+                st.success("✅ 인증 성공! 질문을 입력하세요.")
+            else:
+                st.error("❌ 비밀번호가 올바르지 않습니다. 다시 시도해 주세요.")
+    else:
+        user_input = st.text_input(":eight_pointed_black_star:민사고에 대해 질문하고 엔터를 눌러주세요!")
 
         if user_input:
             # 질문하면 아래 내용 보여주기
