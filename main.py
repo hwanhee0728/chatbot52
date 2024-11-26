@@ -38,7 +38,7 @@ if not st.session_state.authenticated:
             st.success("✅ 인증 성공! 질문을 입력하세요.")
         else:
             st.error("❌ 비밀번호가 올바르지 않습니다. 다시 시도해 주세요.")
-
+else:  # 인증 성공 후 질문 입력
     user_input = st.text_input(":eight_pointed_black_star:민사고에 대해 질문하고 엔터를 눌러주세요!")
 
     if user_input:
