@@ -36,41 +36,42 @@ if not st.session_state.authenticated:
         if password == password_key:
             st.session_state.authenticated = True
             st.success("✅ 인증 성공! 질문을 입력하세요.")
+
+
+            user_input = st.text_input(":eight_pointed_black_star:민사고에 대해 질문하고 엔터를 눌러주세요!")
+        
+            if user_input:
+                # 질문에 대한 응답 표시
+                st.write(':pencil2::pencil2::pencil2: 답변 드립니다 :pencil2::pencil2::pencil2:')
+        
+                embeddings_model = OpenAIEmbeddings(model="text-embedding-ada-002")
+                try:
+                    db = Chroma(persist_directory="chromadb_ada2", embedding_function=embeddings_model)
+                except Exception as e:
+                    st.error(f"Error initializing database: {e}")
+                    raise
+        
+                # StreamHandler 클래스 정의
+                class StreamHandler(BaseCallbackHandler):
+                    def __init__(self, container, initial_text=""):
+                        self.container = container
+                        self.text = initial_text
+        
+                    def on_llm_new_token(self, token: str, **kwargs) -> None:
+                        self.text += token
+                        self.container.markdown(self.text)
+        
+                # LLM 및 QA 체인 구성
+                question = user_input
+                chat_box = st.empty()
+                stream_handler = StreamHandler(chat_box)
+                llm = ChatOpenAI(model_name="gpt-4o", temperature=0.5, max_tokens=3000, streaming=True, callbacks=[stream_handler])
+                qa_chain = RetrievalQA.from_chain_type(llm, retriever=db.as_retriever())
+        
+                try:
+                    qa_chain.invoke({"query": question})
+                except Exception as e:
+                    st.error(f"Error during QA chain execution: {e}")
+                    raise
         else:
             st.error("❌ 비밀번호가 올바르지 않습니다. 다시 시도해 주세요.")
-else:  # 인증 성공 후 질문 입력
-    user_input = st.text_input(":eight_pointed_black_star:민사고에 대해 질문하고 엔터를 눌러주세요!")
-
-    if user_input:
-        # 질문에 대한 응답 표시
-        st.write(':pencil2::pencil2::pencil2: 답변 드립니다 :pencil2::pencil2::pencil2:')
-
-        embeddings_model = OpenAIEmbeddings(model="text-embedding-ada-002")
-        try:
-            db = Chroma(persist_directory="chromadb_ada2", embedding_function=embeddings_model)
-        except Exception as e:
-            st.error(f"Error initializing database: {e}")
-            raise
-
-        # StreamHandler 클래스 정의
-        class StreamHandler(BaseCallbackHandler):
-            def __init__(self, container, initial_text=""):
-                self.container = container
-                self.text = initial_text
-
-            def on_llm_new_token(self, token: str, **kwargs) -> None:
-                self.text += token
-                self.container.markdown(self.text)
-
-        # LLM 및 QA 체인 구성
-        question = user_input
-        chat_box = st.empty()
-        stream_handler = StreamHandler(chat_box)
-        llm = ChatOpenAI(model_name="gpt-4o", temperature=0.5, max_tokens=3000, streaming=True, callbacks=[stream_handler])
-        qa_chain = RetrievalQA.from_chain_type(llm, retriever=db.as_retriever())
-
-        try:
-            qa_chain.invoke({"query": question})
-        except Exception as e:
-            st.error(f"Error during QA chain execution: {e}")
-            raise
