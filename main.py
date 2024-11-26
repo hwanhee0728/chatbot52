@@ -28,6 +28,7 @@ password = st.text_input(":name_badge: 7글자 패스워드를 넣어주세요!"
 
 if password:
     if password == password_key:
+        st.success("패스워드 확인 완료!")
         user_input = st.text_input(":eight_pointed_black_star:민사고에 대해 질문하고 엔터를 눌러주세요!")
 
         if user_input:
