@@ -26,6 +26,18 @@ password_key = os.getenv('KEY')
 
 st.write(":robot_face:KMLA Chatbot :smile:무엇이든 물어보세요!")
 
+st.markdown(
+    """
+    <style>
+    /* 전체 페이지 배경색 */
+    body {
+        background-color: lightgray;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # 인증 상태 초기화
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
