@@ -24,7 +24,7 @@ password_key = os.getenv('KEY')
 #image = image.resize((150, 150))
 #st.image(image)
 
-st.header("KMLA Chatbot")
+st.header("KMLA Chatbot 무엇이든 물어보세요!")
 
 # 인증 상태 초기화
 if "authenticated" not in st.session_state:
