@@ -15,7 +15,7 @@ from langchain.callbacks.base import BaseCallbackHandler
 from dotenv import load_dotenv
 from PIL import Image
 
-load_dotenv()
+#load_dotenv()
 password_key = os.getenv('KEY')
 
 image = Image.open('robot01.png')
