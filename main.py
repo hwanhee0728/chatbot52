@@ -31,7 +31,7 @@ if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
 # 비밀번호 입력 필드
-password = st.text_input(":name_badge: 7글자 패스워드를 넣어주세요!", type="password")
+password = st.text_input(":name_badge: 패스워드를 넣어주세요!", type="password")
 
 if password:
     if password == password_key:
