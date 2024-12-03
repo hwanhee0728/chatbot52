@@ -38,6 +38,8 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 st.write(":robot_face: KMLA Chatbot")
+st.write(":robot_face: KMLA Chatbot - 민사고 관련 질문해주세요!")
+
 # 인증 상태 초기화
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
