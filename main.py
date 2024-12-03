@@ -24,6 +24,19 @@ password_key = os.getenv('KEY')
 #image = image.resize((150, 150))
 #st.image(image)
 
+
+# 페이지 설정
+st.set_page_config(page_title="KMLA Chatbot", page_icon="🤖", layout="wide")
+
+# CSS를 사용하여 여백 제거
+st.markdown("""
+    <style>
+        .block-container {
+            padding-top: 0rem;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
 st.header(":robot_face: KMLA Chatbot")
 st.write("민족사관고등학교에 대해 무엇이든 물어보세요! :smile:")
 # 인증 상태 초기화
