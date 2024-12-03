@@ -37,8 +37,6 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-st.write("")
-st.write(":robot_face: KMLA Chatbot")
 st.write(":robot_face: KMLA Chatbot")
 # 인증 상태 초기화
 if "authenticated" not in st.session_state:
