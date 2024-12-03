@@ -15,19 +15,6 @@ from langchain.callbacks.base import BaseCallbackHandler
 from dotenv import load_dotenv
 from PIL import Image
 
-
-st.markdown(
-    """
-    <style>
-    /* 전체 페이지 배경색 */
-    body {
-        background-color: lightgray;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
 # .env 파일 로드
 #load_dotenv()
 password_key = os.getenv('KEY')
