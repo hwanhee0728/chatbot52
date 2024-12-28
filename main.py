@@ -76,19 +76,6 @@ if st.session_state.authenticated:
         # Chunk 추출 및 로그 출력
         retriever = db.as_retriever(search_kwargs={"k": 20})  # 상위 n개의 관련 문서 검색
 
-        try:
-            # 질문에 대해 검색된 chunk를 가져옴
-            relevant_docs = retriever.get_relevant_documents(user_input)
-            
-            #chunk_count = len(relevant_docs)  # 검색된 chunk 수 계산
-            #st.write(f":mag: {chunk_count}개의 관련 문서를 검색했습니다. 이 내용을 바탕으로 답변을 생성합니다.")  # 웹 화면에 알림
-            #for idx, doc in enumerate(relevant_docs):
-            #    print(f"Chunk {idx + 1}: {doc.page_content}")  # VSCode 터미널에만 출력
-            #    print("================================================================================")  # 구분선 추가
-        except Exception as e:
-            st.error(f"Error retrieving documents: {e}")
-            raise
-
         # LLM 및 QA 체인 구성
         chat_box = st.empty()
         stream_handler = StreamHandler(chat_box)
