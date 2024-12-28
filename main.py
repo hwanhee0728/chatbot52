@@ -65,7 +65,7 @@ if st.session_state.authenticated:
 
         embeddings_model = OpenAIEmbeddings(model="text-embedding-3-large")
         try:
-            db = Chroma(persist_directory="chromadb_ada3", embedding_function=embeddings_model)
+            db = Chroma(persist_directory="chromadb_ada2.5", embedding_function=embeddings_model)
         except Exception as e:
             st.error(f"Error initializing database: {e}")
             raise
@@ -84,7 +84,7 @@ if st.session_state.authenticated:
         question = user_input
         chat_box = st.empty()
         stream_handler = StreamHandler(chat_box)
-        llm = ChatOpenAI(model_name="gpt-4o", temperature=0.5, max_tokens=3000, streaming=True, callbacks=[stream_handler])
+        llm = ChatOpenAI(model_name="gpt-4o", temperature=0.3, max_tokens=3000, streaming=True, callbacks=[stream_handler])
         qa_chain = RetrievalQA.from_chain_type(llm, retriever=db.as_retriever())
 
         try:
