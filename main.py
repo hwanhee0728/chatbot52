@@ -79,11 +79,12 @@ if st.session_state.authenticated:
         try:
             # 질문에 대해 검색된 chunk를 가져옴
             relevant_docs = retriever.get_relevant_documents(user_input)
-            chunk_count = len(relevant_docs)  # 검색된 chunk 수 계산
-            st.write(f":mag: {chunk_count}개의 관련 문서를 검색했습니다. 이 내용을 바탕으로 답변을 생성합니다.")  # 웹 화면에 알림
-            for idx, doc in enumerate(relevant_docs):
-                print(f"Chunk {idx + 1}: {doc.page_content}")  # VSCode 터미널에만 출력
-                print("================================================================================")  # 구분선 추가
+            
+            #chunk_count = len(relevant_docs)  # 검색된 chunk 수 계산
+            #st.write(f":mag: {chunk_count}개의 관련 문서를 검색했습니다. 이 내용을 바탕으로 답변을 생성합니다.")  # 웹 화면에 알림
+            #for idx, doc in enumerate(relevant_docs):
+            #    print(f"Chunk {idx + 1}: {doc.page_content}")  # VSCode 터미널에만 출력
+            #    print("================================================================================")  # 구분선 추가
         except Exception as e:
             st.error(f"Error retrieving documents: {e}")
             raise
