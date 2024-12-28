@@ -19,12 +19,6 @@ from PIL import Image
 #load_dotenv()
 password_key = os.getenv('KEY')
 
-# 로고 이미지 표시
-#image = Image.open('robot01.png')
-#image = image.resize((150, 150))
-#st.image(image)
-
-
 # 페이지 설정
 st.set_page_config(page_title="KMLA Chatbot", page_icon="🤖", layout="wide")
 
