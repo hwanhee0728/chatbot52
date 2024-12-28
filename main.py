@@ -13,7 +13,6 @@ from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA
 from langchain.callbacks.base import BaseCallbackHandler
 from dotenv import load_dotenv
-from PIL import Image
 
 # .env 파일 로드
 #load_dotenv()
@@ -55,11 +54,11 @@ if st.session_state.authenticated:
 
     if user_input:
         # 질문에 대한 응답 표시
-        st.write(':pencil2::pencil2::pencil2: 답변 드립니다 :pencil2::pencil2::pencil2:')
+        st.write(':pencil2::pencil2::pencil2: 답변 준비 중입니다 :pencil2::pencil2::pencil2:')
 
-        embeddings_model = OpenAIEmbeddings(model="text-embedding-3-small")
+        embeddings_model = OpenAIEmbeddings(model="text-embedding-ada-002")
         try:
-            db = Chroma(persist_directory="chromadb_ada2.6", embedding_function=embeddings_model)
+            db = Chroma(persist_directory="chromadb_ada2.8", embedding_function=embeddings_model)
         except Exception as e:
             st.error(f"Error initializing database: {e}")
             raise
@@ -74,15 +73,29 @@ if st.session_state.authenticated:
                 self.text += token
                 self.container.markdown(self.text)
 
+        # Chunk 추출 및 로그 출력
+        retriever = db.as_retriever(search_kwargs={"k": 20})  # 상위 n개의 관련 문서 검색
+
+        try:
+            # 질문에 대해 검색된 chunk를 가져옴
+            relevant_docs = retriever.get_relevant_documents(user_input)
+            chunk_count = len(relevant_docs)  # 검색된 chunk 수 계산
+            st.write(f":mag: {chunk_count}개의 관련 문서를 검색했습니다. 이 내용을 바탕으로 답변을 생성합니다.")  # 웹 화면에 알림
+            for idx, doc in enumerate(relevant_docs):
+                print(f"Chunk {idx + 1}: {doc.page_content}")  # VSCode 터미널에만 출력
+                print("================================================================================")  # 구분선 추가
+        except Exception as e:
+            st.error(f"Error retrieving documents: {e}")
+            raise
+
         # LLM 및 QA 체인 구성
-        question = user_input
         chat_box = st.empty()
         stream_handler = StreamHandler(chat_box)
         llm = ChatOpenAI(model_name="gpt-4o", temperature=0.3, max_tokens=3000, streaming=True, callbacks=[stream_handler])
         qa_chain = RetrievalQA.from_chain_type(llm, retriever=db.as_retriever())
 
         try:
-            qa_chain.invoke({"query": question})
+            qa_chain.invoke({"query": user_input})
         except Exception as e:
             st.error(f"Error during QA chain execution: {e}")
             raise
