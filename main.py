@@ -63,9 +63,9 @@ if st.session_state.authenticated:
         # 질문에 대한 응답 표시
         st.write(':pencil2::pencil2::pencil2: 답변 드립니다 :pencil2::pencil2::pencil2:')
 
-        embeddings_model = OpenAIEmbeddings(model="text-embedding-ada-002")
+        embeddings_model = OpenAIEmbeddings(model="text-embedding-3-large")
         try:
-            db = Chroma(persist_directory="chromadb_ada2", embedding_function=embeddings_model)
+            db = Chroma(persist_directory="chromadb_ada3", embedding_function=embeddings_model)
         except Exception as e:
             st.error(f"Error initializing database: {e}")
             raise
