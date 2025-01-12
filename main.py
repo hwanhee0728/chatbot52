@@ -7,15 +7,17 @@ os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 
 import streamlit as st
 
+from langchain_community.vectorstores import Chroma
 from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA
 from langchain.callbacks.base import BaseCallbackHandler
 from dotenv import load_dotenv
+from PIL import Image
 
 # .env 파일 로드
-#load_dotenv()
+load_dotenv()
 password_key = os.getenv('KEY')
 
 # 페이지 설정
@@ -56,9 +58,9 @@ if st.session_state.authenticated:
         # 질문에 대한 응답 표시
         st.write(':pencil2::pencil2::pencil2: 답변 준비 중입니다 :pencil2::pencil2::pencil2:')
 
-        embeddings_model = OpenAIEmbeddings(model="text-embedding-ada-002")
+        embeddings_model = OpenAIEmbeddings(model="text-embedding-3-large")
         try:
-            db = Chroma(persist_directory="chromadb_ada2.8", embedding_function=embeddings_model)
+            db = Chroma(persist_directory="chromadb_ada3.6", embedding_function=embeddings_model)
         except Exception as e:
             st.error(f"Error initializing database: {e}")
             raise
@@ -73,13 +75,24 @@ if st.session_state.authenticated:
                 self.text += token
                 self.container.markdown(self.text)
 
-        # Chunk 추출 및 로그 출력
-        retriever = db.as_retriever(search_kwargs={"k": 20})  # 상위 n개의 관련 문서 검색
+        # Chunk 추출
+        retriever = db.as_retriever(search_kwargs={"k": 100})  # 상위 n개의 관련 문서 검색
+
+        # RELEVANT DOCUMENTS 터미널 출력 추가
+        # try:
+        #     relevant_docs = retriever.get_relevant_documents(user_input)
+        #     print("\n=== RELEVANT DOCUMENTS ===")
+        #     for idx, doc in enumerate(relevant_docs):
+        #         print(f"Document {idx + 1}:\n{doc.page_content}\n")
+        #     print("==========================\n")
+        # except Exception as e:
+        #     st.error(f"Error retrieving documents: {e}")
+        #     raise
 
         # LLM 및 QA 체인 구성
         chat_box = st.empty()
         stream_handler = StreamHandler(chat_box)
-        llm = ChatOpenAI(model_name="gpt-4o", temperature=0.3, max_tokens=3000, streaming=True, callbacks=[stream_handler])
+        llm = ChatOpenAI(model_name="gpt-4o", temperature=0.1, max_tokens=7000, streaming=True, callbacks=[stream_handler])
         qa_chain = RetrievalQA.from_chain_type(llm, retriever=db.as_retriever())
 
         try:
