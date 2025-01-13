@@ -58,9 +58,10 @@ if st.session_state.authenticated:
         # 질문에 대한 응답 표시
         st.write(':pencil2::pencil2::pencil2: 답변 준비 중입니다 :pencil2::pencil2::pencil2:')
 
-        embeddings_model = OpenAIEmbeddings(model="text-embedding-3-large")
+        # 임베딩 모델 및 Chroma DB 초기화
+        embeddings_model = OpenAIEmbeddings(model="text-embedding-ada-002")
         try:
-            db = Chroma(persist_directory="chromadb_ada3.6", embedding_function=embeddings_model)
+            db = Chroma(persist_directory="chromadb_ada4.1", embedding_function=embeddings_model)
         except Exception as e:
             st.error(f"Error initializing database: {e}")
             raise
@@ -75,27 +76,22 @@ if st.session_state.authenticated:
                 self.text += token
                 self.container.markdown(self.text)
 
-        # Chunk 추출
-        retriever = db.as_retriever(search_kwargs={"k": 100})  # 상위 n개의 관련 문서 검색
-
-        # RELEVANT DOCUMENTS 터미널 출력 추가
-        # try:
-        #     relevant_docs = retriever.get_relevant_documents(user_input)
-        #     print("\n=== RELEVANT DOCUMENTS ===")
-        #     for idx, doc in enumerate(relevant_docs):
-        #         print(f"Document {idx + 1}:\n{doc.page_content}\n")
-        #     print("==========================\n")
-        # except Exception as e:
-        #     st.error(f"Error retrieving documents: {e}")
-        #     raise
-
-        # LLM 및 QA 체인 구성
-        chat_box = st.empty()
-        stream_handler = StreamHandler(chat_box)
-        llm = ChatOpenAI(model_name="gpt-4o", temperature=0.1, max_tokens=7000, streaming=True, callbacks=[stream_handler])
-        qa_chain = RetrievalQA.from_chain_type(llm, retriever=db.as_retriever())
-
+        # 통합된 QA 체인 초기화
         try:
+            chat_box = st.empty()
+            stream_handler = StreamHandler(chat_box)
+            qa_chain = RetrievalQA.from_chain_type(
+                llm=ChatOpenAI(
+                    model_name="gpt-4o",  # 모델 이름 수정
+                    temperature=0.1,
+                    max_tokens=7000,
+                    streaming=True,
+                    callbacks=[stream_handler]
+                ),
+                retriever=db.as_retriever(search_kwargs={"k": 30})
+            )
+
+            # 질문 처리 및 응답 표시
             qa_chain.invoke({"query": user_input})
         except Exception as e:
             st.error(f"Error during QA chain execution: {e}")
