@@ -60,8 +60,6 @@ if st.session_state.authenticated:
     )
 
     if user_input:
-        # 질문에 대한 응답 표시
-        st.write(':pencil2::pencil2::pencil2: 답변 준비 중입니다 :pencil2::pencil2::pencil2:')
 
         # 임베딩 모델 및 Chroma DB 초기화
         embeddings_model = OpenAIEmbeddings(model="text-embedding-ada-002")
@@ -91,16 +89,16 @@ if st.session_state.authenticated:
                 llm=ChatOpenAI(
                     model_name="gpt-4o",
                     temperature=0.1,
-                    max_tokens=7000,
+                    max_tokens=5000,
                     streaming=True,
                     callbacks=[stream_handler]
                 ),
-                retriever=db.as_retriever(search_kwargs={"k": 20}),
+                retriever=db.as_retriever(search_kwargs={"k": 50}),
                 return_source_documents=False
             )
 
             # 질문 처리 및 응답 표시
-            initial_prompt = "당신은 한국어를 잘 이해하고 공손한 태도로 답변하는 챗봇입니다."
+            initial_prompt = "당신은 한국어를 잘 이해하며 한국어를 잘 구사하는, 항상 공손하고 친근하고 따뜻한 태도로 답변하는, 그리고 매우 상세하게 답변하는, KMLA Chatbot입니다."
             qa_chain.invoke({"query": f"{initial_prompt}\n{user_input}"})
         except Exception as e:
             st.error(f"Error during QA chain execution: {e}")
