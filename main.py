@@ -90,17 +90,17 @@ if st.session_state.authenticated:
             qa_chain = RetrievalQA.from_chain_type(
                 llm=ChatOpenAI(
                     model_name="gpt-4o",
-                    temperature=0.3,
-                    max_tokens=10000,
+                    temperature=0,
+                    max_tokens=7000,
                     streaming=True,
                     callbacks=[stream_handler]
                 ),
-                retriever=db.as_retriever(search_kwargs={"k": 40}),
+                retriever=db.as_retriever(search_kwargs={"k": 30}),
                 return_source_documents=False
             )
 
             # 질문 처리 및 응답 표시
-            initial_prompt = "당신은 한국어를 잘 이해하며, 항상 공손하고 친근하고 따뜻하고 즐거운 태도로 답변하고, 아주 상세하게 답하는 민족사관고등학교 챗봇입니다."
+            initial_prompt = "당신은 한국어를 잘 이해하며, 항상 공손하고 친근하고 따뜻하고 즐거운 태도로 멋진 대답으로 답변하고, 아주 상세하게 답하는, KMLA Chatbot입니다."
             qa_chain.invoke({"query": f"{initial_prompt}\n{user_input}"})
         except Exception as e:
             st.error(f"Error during QA chain execution: {e}")
