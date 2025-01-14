@@ -32,7 +32,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-st.write("융합프로젝트 2024년 1학기 KMLA Chatbot 팀")
+st.write("KMLA Chatbot 팀")
 st.write(":robot_face: KMLA Chatbot - 민사고에 대해 질문해주세요!")
 
 # 인증 상태 초기화
@@ -40,7 +40,7 @@ if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
 # 비밀번호 입력 필드
-password = st.text_input(":name_badge: 패스워드를 넣어주세요!", type="password")
+password = st.text_input(":name_badge: 패스워드를 넣어주세요!", type="password", key="password_input")
 
 if password:
     if password == password_key:
@@ -52,7 +52,12 @@ if password:
 
 # 인증된 경우 질문 입력 필드 표시
 if st.session_state.authenticated:
-    user_input = st.text_input(":eight_pointed_black_star:민사고에 대해 질문하고 엔터를 눌러주세요!")
+    # CSS를 적용한 질문 입력 필드
+    user_input = st.text_input(
+        ":eight_pointed_black_star:민사고에 대해 질문하고 엔터를 눌러주세요!",
+        key="user_input",
+        placeholder="질문을 입력하세요.",
+    )
 
     if user_input:
         # 질문에 대한 응답 표시
@@ -80,19 +85,23 @@ if st.session_state.authenticated:
         try:
             chat_box = st.empty()
             stream_handler = StreamHandler(chat_box)
+
+            # 초기 가이드를 대화 시작에 포함
             qa_chain = RetrievalQA.from_chain_type(
                 llm=ChatOpenAI(
-                    model_name="gpt-4o",  # 모델 이름 수정
-                    temperature=0.1,
-                    max_tokens=7000,
+                    model_name="gpt-4o",
+                    temperature=0.3,
+                    max_tokens=10000,
                     streaming=True,
                     callbacks=[stream_handler]
                 ),
-                retriever=db.as_retriever(search_kwargs={"k": 30})
+                retriever=db.as_retriever(search_kwargs={"k": 40}),
+                return_source_documents=False
             )
 
             # 질문 처리 및 응답 표시
-            qa_chain.invoke({"query": user_input})
+            initial_prompt = "당신은 한국어를 잘 이해하며, 항상 공손하고 친근하고 따뜻하고 즐거운 태도로 답변하고, 아주 상세하게 답하는 민족사관고등학교 챗봇입니다."
+            qa_chain.invoke({"query": f"{initial_prompt}\n{user_input}"})
         except Exception as e:
             st.error(f"Error during QA chain execution: {e}")
             raise
