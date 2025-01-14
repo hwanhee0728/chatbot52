@@ -100,7 +100,7 @@ if st.session_state.authenticated:
             )
 
             # 질문 처리 및 응답 표시
-            initial_prompt = "당신은 한국어를 잘 이해하며 한국어를 잘 구사하는, 항상 공손하고 친근하고 따뜻한 태도로 답변하는, 그리고 매우 상세하게 답변하는, KMLA Chatbot입니다."
+            initial_prompt = "당신은 한국어를 잘 이해하고 공손한 태도로 답변하는 챗봇입니다."
             qa_chain.invoke({"query": f"{initial_prompt}\n{user_input}"})
         except Exception as e:
             st.error(f"Error during QA chain execution: {e}")
