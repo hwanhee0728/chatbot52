@@ -62,9 +62,9 @@ if st.session_state.authenticated:
     if user_input:
 
         # 임베딩 모델 및 Chroma DB 초기화
-        embeddings_model = OpenAIEmbeddings(model="text-embedding-ada-002")
+        embeddings_model = OpenAIEmbeddings(model="text-embedding-3-small")
         try:
-            db = Chroma(persist_directory="chromadb_ada4.1", embedding_function=embeddings_model)
+            db = Chroma(persist_directory="chromadb_ada4.2", embedding_function=embeddings_model)
         except Exception as e:
             st.error(f"Error initializing database: {e}")
             raise
