@@ -57,6 +57,8 @@ if st.session_state.authenticated:
         ":eight_pointed_black_star:민사고에 대해 질문하고 엔터를 눌러주세요!",
         key="user_input",
         placeholder="질문을 입력하세요.",
+        disabled=False,
+        spellcheck=False  # 맞춤법 검사 비활성화
     )
 
     if user_input:
