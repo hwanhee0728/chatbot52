@@ -54,7 +54,7 @@ if password:
 if st.session_state.authenticated:
     # CSS를 적용한 질문 입력 필드
     user_input = st.text_input(
-        ":eight_pointed_black_star:민사고에 대해 질문하고 엔터를 눌러주세요!",
+        ":smile:민사고에 대해 질문하고 엔터를 눌러주세요!",
         key="user_input",
         placeholder="질문을 입력하세요."
     )
