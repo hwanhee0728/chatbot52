@@ -33,7 +33,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 st.write("KMLA Chatbot 팀")
-st.write(":robot_face: KMLA Chatbot - 민사고에 대해 질문해주세요!")
+st.write("KMLA Chatbot - 민사고에 대해 질문해주세요!")
 
 # 인증 상태 초기화
 if "authenticated" not in st.session_state:
